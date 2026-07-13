@@ -18,6 +18,17 @@ public:
     
     int toInt() const;
     void fromInt(int value);
+
+    //arithmatic operators
+    Tryte operator +(const Tryte& other) const;
+    Tryte operator -(const Tryte& other) const;
+    Tryte operator *(const Tryte& other) const;
+
+    // bool operator >(const Tryte& other) const;
+    // bool operator <(const Tryte& other) const;
+    
+    bool operator ==(const Tryte& other) const;
+    bool operator !=(const Tryte& other) const;
 };
 
 } // namespace trios

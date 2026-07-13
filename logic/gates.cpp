@@ -1,5 +1,4 @@
 #include "gates.hpp"
-#include "trit.hpp"
 
 namespace trios {
     
@@ -33,7 +32,7 @@ Trit OrGate::evaluate(const std::vector<Trit>& inputs) const {
     }
     Trit result = ZERO;
     for (const auto& input : inputs) {
-        if (input == POS && result == NEG || input == NEG && result == POS) {
+        if ((input == POS && result == NEG) || (input == NEG && result == POS)) {
             result = ZERO;
         }
         else if (input == POS) {

@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "trit.hpp"
+#include "./trit/trit.hpp"
 
 namespace trios {
 
