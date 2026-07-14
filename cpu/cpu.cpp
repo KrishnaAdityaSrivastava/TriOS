@@ -14,7 +14,7 @@ namespace trios{
             case 7: registers.SP = value; break;
             // case 8: registers.FLAGS = value; break;
             default:
-                throw std::out_of_range("Register index out of range");
+                throw std::out_of_range("Register index out of range"+std::to_string(index.toInt()));
         }
     }
 
@@ -30,7 +30,18 @@ namespace trios{
             case 7: return registers.SP;
             // case 8: return registers.FLAGS;
             default:
-                throw std::out_of_range("Register index out of range");
+                throw std::out_of_range("Register index out of range"+std::to_string(index.toInt()));
+        }
+    }
+
+    void Cpu::run(Tryte startAddress) {
+        registers.PC = startAddress;
+        while (true) {
+            // Tryte pc = registers.PC;
+            EncodedInstruction encodedInstruction = memory.readInstruction(registers.PC);
+            Instruction instruction = decodeInstruction(encodedInstruction);
+            executeInstruction(instruction);
+            if (instruction.opcode == Opcodes::HALT) break;
         }
     }
 

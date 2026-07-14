@@ -4,9 +4,9 @@
 #include "trit/tryte.hpp"
 
 namespace trios{
-enum Opcodes
+enum class Opcodes
 {
-    LOAD = 0,  // LOAD DESTINATION, SOURCE
+    LOAD = 0,  // LOAD DESTINATION, SOURCE      mem to reg
     STORE = 1, // STORE DESTINATION, SOURCE
     MOV = 2,   // MOV DESTINATION, SOURCE
 
@@ -22,6 +22,14 @@ enum Opcodes
     RET = 23,  // RET
 
     HALT = 26  // HALT
+};
+
+struct EncodedInstruction
+{
+    Tryte opcode;
+    Tryte arg1;
+    Tryte arg2;
+    Tryte arg3;
 };
 
 struct Instruction

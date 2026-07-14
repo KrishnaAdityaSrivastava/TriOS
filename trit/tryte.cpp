@@ -38,13 +38,14 @@ namespace trios
     void Tryte::fromInt(int value){
         for (int i = 0; i < 6; ++i) {
             int rem = value%3;
+            value /= 3;
 
-            if(rem == 2) rem = -1;
-            else if (rem == -2) rem = 1;
+            if(rem == 2) {rem = -1;value++;}
+            else if (rem == -2) {rem = 1;value--;}
 
             trits[i] = static_cast<Trit>(rem);
-            value /= 3;
         }
+        
     }
 
     Tryte Tryte::operator +(const Tryte& other) const{
