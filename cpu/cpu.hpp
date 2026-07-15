@@ -27,7 +27,10 @@ namespace trios
         void run(Tryte startAddress = Tryte(0));
 
         void setRegister(Tryte index, const Tryte &value);
+        void setRegister(Register reg, const Tryte& value);
+
         Tryte getRegister(Tryte index) const;
+        Tryte getRegister(Register reg) const;
 
         void executeInstruction(const Instruction &instruction);
         Instruction decodeInstruction(const EncodedInstruction &instruction);

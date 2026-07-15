@@ -1,6 +1,7 @@
 #ifndef TRIOS_REGISTER_HPP
 #define TRIOS_REGISTER_HPP
 
+#include <array>
 #include "trit/tryte.hpp"
 
 namespace trios{
@@ -11,6 +12,7 @@ struct FlagsRegister{
     bool overflow;
 };
 struct CpuRegister{
+    std::array<Tryte, 7> GPR;  // General Purpose Registers R0-R5
     Tryte R0;
     Tryte R1;
     Tryte R2;
@@ -21,6 +23,18 @@ struct CpuRegister{
     Tryte PC;
     Tryte SP;
     FlagsRegister FLAGS;
+};
+enum class Register : int
+{
+    R0 = 0,
+    R1,
+    R2,
+    R3,
+    R4,
+    R5,
+    R6,
+    PC,
+    SP
 };
 }
 #endif

@@ -18,7 +18,16 @@ namespace trios{
         }
     }
 
+    void Cpu::setRegister(Register reg, const Tryte& value) {
+        int index = static_cast<int>(reg);
+        if (index < 0 || index >= 8) {
+            throw std::out_of_range("Register index out of range: "+std::to_string(index));
+        }
+        registers.GPR[index] = value;
+    }
+
     Tryte Cpu::getRegister(Tryte index) const {
+        
         switch (index.toInt()) {
             case 0: return registers.R0;
             case 1: return registers.R1;
@@ -32,6 +41,13 @@ namespace trios{
             default:
                 throw std::out_of_range("Register index out of range"+std::to_string(index.toInt()));
         }
+    }
+    Tryte Cpu::getRegister(Register reg) const {
+        int index = static_cast<int>(reg);
+        if (index < 0 || index >= 8) {
+            throw std::out_of_range("Register index out of range: "+std::to_string(index));
+        }
+        return registers.GPR[index];
     }
 
     void Cpu::run(Tryte startAddress) {
