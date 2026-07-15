@@ -3,6 +3,9 @@
 
 #include "memory/memory.hpp"
 #include "cpu/register.hpp"
+    #include <iostream>
+    #include <sstream>
+
 
 namespace trios{
 class Assembler {
@@ -11,6 +14,9 @@ class Assembler {
 
 public:
     Assembler(Memory &memory,Tryte address) : memory(memory), address(address) {};
+
+    void takeInstructionFromCli();
+
     void load(Register reg, Tryte address);
     void store(Register reg, Tryte address);
     void mov(Register reg1, Register reg2);

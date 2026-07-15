@@ -2,6 +2,8 @@
 #define TRIOS_REGISTER_HPP
 
 #include <array>
+#include <string>
+#include <stdexcept>
 #include "trit/tryte.hpp"
 
 namespace trios{
@@ -36,5 +38,7 @@ enum class Register : int
     PC,
     SP
 };
+Register parseRegister(const std::string& reg);
+
 }
 #endif
