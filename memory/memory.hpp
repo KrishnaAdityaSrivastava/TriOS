@@ -7,10 +7,10 @@
 
 namespace trios{
 class Memory{
-
+    static constexpr int DEFAULT_MEMORY_SIZE = 200;
     std::vector<Tryte> memory;
     public:
-    Memory() : memory(200, Tryte(0)) {} // Initialize memory with 100 Trytes
+    Memory() : memory(DEFAULT_MEMORY_SIZE, Tryte(0)) {}
     Tryte read(const Tryte& address) const;
     Tryte write(const Tryte& address, const Tryte& value);
 

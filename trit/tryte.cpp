@@ -5,6 +5,7 @@ namespace trios
 {
     Tryte::Tryte()
     {
+        fromInt(0);
     }
     Tryte::Tryte(int value)
     {

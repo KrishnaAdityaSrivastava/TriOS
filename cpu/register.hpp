@@ -7,25 +7,21 @@
 #include "trit/tryte.hpp"
 
 namespace trios{
+constexpr int GENERAL_REGISTER_COUNT = 7;
+constexpr int REGISTER_COUNT = 9;
+
 struct FlagsRegister{
-    bool zero;
-    bool carry;
-    bool negative;
-    bool overflow;
+    bool zero = false;
+    bool carry = false;
+    bool negative = false;
+    bool overflow = false;
 };
+
 struct CpuRegister{
-    std::array<Tryte, 7> GPR;  // General Purpose Registers R0-R5
-    Tryte R0;
-    Tryte R1;
-    Tryte R2;
-    Tryte R3;
-    Tryte R4;
-    Tryte R5;
-    Tryte R6;
-    Tryte PC;
-    Tryte SP;
-    FlagsRegister FLAGS;
+    std::array<Tryte, REGISTER_COUNT> values{};
+    FlagsRegister FLAGS{};
 };
+
 enum class Register : int
 {
     R0 = 0,
@@ -38,6 +34,7 @@ enum class Register : int
     PC,
     SP
 };
+
 Register parseRegister(const std::string& reg);
 
 }
