@@ -60,6 +60,7 @@ namespace trios
 
     void Assembler::call(Tryte address)
     {
+        
         memory.saveInstruction(this->address, {Tryte((int)Opcodes::CALL), address, Tryte(0), Tryte(0)});
         this->address = this->address + Tryte(4);
     }

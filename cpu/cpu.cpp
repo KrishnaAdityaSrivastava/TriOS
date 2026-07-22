@@ -35,8 +35,9 @@ namespace trios{
             case 3: return registers.R3;
             case 4: return registers.R4;
             case 5: return registers.R5;
-            case 6: return registers.PC;
-            case 7: return registers.SP;
+            case 6: return registers.R6;
+            case 7: return registers.PC;
+            case 8: return registers.SP;
             // case 8: return registers.FLAGS;
             default:
                 throw std::out_of_range("Register index out of range"+std::to_string(index.toInt()));

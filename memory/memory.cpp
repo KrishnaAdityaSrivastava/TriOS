@@ -45,4 +45,8 @@ namespace trios {
         memory[addr + 3] = instruction.arg3;
     }
 
+    void Memory::reset(){
+        memory.clear();
+    }
+
 }

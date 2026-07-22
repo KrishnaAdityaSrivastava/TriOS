@@ -89,6 +89,13 @@ namespace trios{
                 // Implement HALT logic
                 // throw std::runtime_error("HALT instruction executed");
                 break;
+            case Opcodes::SYSCALL:
+                // Implement SYSCALL logic
+                // int instruction = registers.R0.toInt();
+                // if (instruction == 1){
+                //     std::cout << 
+                // }
+                break;
             default:
                 throw std::invalid_argument("Unknown opcode");
         }

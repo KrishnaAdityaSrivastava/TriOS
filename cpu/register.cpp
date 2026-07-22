@@ -8,6 +8,7 @@ namespace trios{
         else if (reg == "R3") return Register::R3;
         else if (reg == "R4") return Register::R4;
         else if (reg == "R5") return Register::R5;
+        else if (reg == "R6") return Register::R6;
         else if (reg == "PC") return Register::PC;
         else if (reg == "SP") return Register::SP;
         else throw std::invalid_argument("Invalid register name: " + reg);

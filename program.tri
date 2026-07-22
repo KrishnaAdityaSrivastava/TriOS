@@ -1,0 +1,22 @@
+LOAD R0 100       ; R0 = a = 0
+LOAD R1 101       ; R1 = b = 1
+LOAD R2 102       ; R2 = counter = 10
+
+loop:
+ADD R3 R0 R1      ; R3 = a + b
+
+MOV R0 R1         ; a = b
+MOV R1 R3         ; b = next Fibonacci number
+
+; Decrease counter
+LOAD R4 103       ; R4 = 1
+SUB R2 R2 R4      ; counter--
+
+; Check whether counter reached zero
+CMP R2 R4
+JZ end
+
+JMP loop
+
+end:
+HALT

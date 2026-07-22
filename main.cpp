@@ -15,18 +15,27 @@ int main()
 
     std::cout << "Booting TriOS v1..." << std::endl;
 
+    
     while (true)
     {
         std::cout << "Enter a command (assemble, run, exit): ";
         std::string command;
         std::cin >> command;
 
-        if (command == "assemble")
+        if (command == "assem")
         {   
             int address;
             std::cin >> address;
             Assembler assembler(mem, Tryte(address));
             assembler.takeInstructionFromCli();
+            std::cout << "Assembling code..." << std::endl;
+        }
+        else if (command == "fassem")
+        {   
+            std::string filename;
+            std::cin >> filename;
+            Assembler assembler(mem, Tryte(0));
+            assembler.takeInstructionFromFile(filename);
             std::cout << "Assembling code..." << std::endl;
         }
         else if (command == "run")
@@ -48,6 +57,11 @@ int main()
             int address;
             std::cin >> address;
             std::cout << "Value at address " << address << ": " << mem.read(Tryte(address)).toInt() << std::endl;
+        }
+        else if (command == "regdump"){
+            for (int i = 0;i<=6;i++){
+                std::cout << "Register " <<i<<": "<< cpu.getRegister(Tryte(i)).toInt()<<std::endl;
+            }
         }
         else if (command == "reset")
         {

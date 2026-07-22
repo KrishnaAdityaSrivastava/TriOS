@@ -21,7 +21,13 @@ enum class Opcodes
     CALL = 22, // CALL ADDRESS
     RET = 23,  // RET
 
-    HALT = 26  // HALT
+    HALT = 26,  // HALT
+
+    SYSCALL = 99
+};
+
+enum class priviligedInstruction{
+    PRINT = 1
 };
 
 struct EncodedInstruction

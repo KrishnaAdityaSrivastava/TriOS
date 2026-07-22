@@ -17,6 +17,14 @@ public:
 
     void takeInstructionFromCli();
 
+    void takeInstructionFromFile(const std::string &filename);
+
+    //void assemble(std::istream &input);
+    void assembleLine(const std::string &line);
+
+    void processInstructionFile(std::istream &file);
+    
+    
     void load(Register reg, Tryte address);
     void store(Register reg, Tryte address);
     void mov(Register reg1, Register reg2);

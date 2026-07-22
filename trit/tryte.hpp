@@ -24,6 +24,8 @@ public:
     Tryte operator -(const Tryte& other) const;
     Tryte operator *(const Tryte& other) const;
 
+    Tryte& operator ++();
+
     // bool operator >(const Tryte& other) const;
     // bool operator <(const Tryte& other) const;
     
