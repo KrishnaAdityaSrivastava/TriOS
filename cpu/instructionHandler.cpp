@@ -22,33 +22,33 @@ namespace trios{
             case Opcodes::LOAD:
                 // Implement LOAD logic
                 setRegister(instruction.arg1, this->memory.read(instruction.arg2));
-                registers.PC = registers.PC + Tryte(4);
+                setRegister(Register::PC, getRegister(Register::PC) + Tryte(4));
                 break;
             case Opcodes::STORE:
                 // Implement STORE logic
                 this->memory.write(instruction.arg1, getRegister(instruction.arg2));
-                registers.PC = registers.PC + Tryte(4);
+                setRegister(Register::PC, getRegister(Register::PC) + Tryte(4));
                 break;
             case Opcodes::MOV:
                 // Implement MOV logic
                 setRegister(instruction.arg1, getRegister(instruction.arg2));
-                registers.PC = registers.PC + Tryte(4);
+                setRegister(Register::PC, getRegister(Register::PC) + Tryte(4));
                 break;
             case Opcodes::ADD:
                 // Implement ADD logic
                 setRegister(instruction.arg1, getRegister(instruction.arg2) + getRegister(instruction.arg3));
                 std::cout << getRegister(instruction.arg2).toInt() << " + " << getRegister(instruction.arg3).toInt() << " = " << getRegister(instruction.arg1).toInt() << std::endl;
-                registers.PC = registers.PC + Tryte(4);
+                setRegister(Register::PC, getRegister(Register::PC) + Tryte(4));
                 break;
             case Opcodes::SUB:
                 // Implement SUB logic
                 setRegister(instruction.arg1, getRegister(instruction.arg2) - getRegister(instruction.arg3));
-                registers.PC = registers.PC + Tryte(4);
+                setRegister(Register::PC, getRegister(Register::PC) + Tryte(4));
                 break;
             case Opcodes::MUL:
                 // Implement MUL logic
                 setRegister(instruction.arg1, getRegister(instruction.arg2) * getRegister(instruction.arg3));
-                registers.PC = registers.PC + Tryte(4);
+                setRegister(Register::PC, getRegister(Register::PC) + Tryte(4));
                 break;
             case Opcodes::CMP:
                 // Implement CMP logic
@@ -62,27 +62,27 @@ namespace trios{
                     registers.FLAGS.zero = false;
                     registers.FLAGS.negative = false;
                 }
-                registers.PC = registers.PC + Tryte(4);
+                setRegister(Register::PC, getRegister(Register::PC) + Tryte(4));
                 break;
             case Opcodes::JMP:
                 // Implement JMP logic
-                registers.PC = instruction.arg1;
+                setRegister(Register::PC, instruction.arg1);
                 break;
             case Opcodes::JZ:
                 // Implement JZ logic
                if(registers.FLAGS.zero)
-                    registers.PC = instruction.arg1;
+                    setRegister(Register::PC, instruction.arg1);
                 else
-                    registers.PC = registers.PC + Tryte(4);
+                    setRegister(Register::PC, getRegister(Register::PC) + Tryte(4));
                 break;
             case Opcodes::CALL:
                 // Implement CALL logic
-                call_stack.push(registers.PC+Tryte(4)); // Save return address
-                registers.PC = instruction.arg1;
+                call_stack.push(getRegister(Register::PC)+Tryte(4)); // Save return address
+                setRegister(Register::PC, instruction.arg1);
                 break;
             case Opcodes::RET:
                 // Implement RET logic
-                registers.PC = call_stack.top();
+                setRegister(Register::PC, call_stack.top());
                 call_stack.pop();
                 break;
             case Opcodes::HALT:
@@ -91,7 +91,7 @@ namespace trios{
                 break;
             case Opcodes::SYSCALL:
                 // Implement SYSCALL logic
-                // int instruction = registers.R0.toInt();
+                // int instruction = getRegister(Register::R0).toInt();
                 // if (instruction == 1){
                 //     std::cout << 
                 // }

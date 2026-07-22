@@ -3,8 +3,8 @@
 
 #include "memory/memory.hpp"
 #include "cpu/register.hpp"
-    #include <iostream>
-    #include <sstream>
+#include <iostream>
+#include <sstream>
 
 
 namespace trios{

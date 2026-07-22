@@ -1,67 +1,49 @@
 #include "cpu.hpp"
 #include <stdexcept>
+#include <string>
 
 namespace trios{
-    void Cpu::setRegister(Tryte index, const Tryte& value) {
-        switch (index.toInt()) {
-            case 0: registers.R0 = value; break;
-            case 1: registers.R1 = value; break;
-            case 2: registers.R2 = value; break;
-            case 3: registers.R3 = value; break;
-            case 4: registers.R4 = value; break;
-            case 5: registers.R5 = value; break;
-            case 6: registers.PC = value; break;
-            case 7: registers.SP = value; break;
-            // case 8: registers.FLAGS = value; break;
-            default:
-                throw std::out_of_range("Register index out of range"+std::to_string(index.toInt()));
+    namespace {
+        int registerIndex(Tryte index) {
+            int idx = index.toInt();
+            if (idx < 0 || idx >= REGISTER_COUNT) {
+                throw std::out_of_range("Register index out of range: " + std::to_string(idx));
+            }
+            return idx;
         }
+
+        int registerIndex(Register reg) {
+            int idx = static_cast<int>(reg);
+            if (idx < 0 || idx >= REGISTER_COUNT) {
+                throw std::out_of_range("Register index out of range: " + std::to_string(idx));
+            }
+            return idx;
+        }
+    }
+
+    void Cpu::setRegister(Tryte index, const Tryte& value) {
+        registers.values[registerIndex(index)] = value;
     }
 
     void Cpu::setRegister(Register reg, const Tryte& value) {
-        int index = static_cast<int>(reg);
-        if (index < 0 || index >= 8) {
-            throw std::out_of_range("Register index out of range: "+std::to_string(index));
-        }
-        registers.GPR[index] = value;
+        registers.values[registerIndex(reg)] = value;
     }
 
     Tryte Cpu::getRegister(Tryte index) const {
-        
-        switch (index.toInt()) {
-            case 0: return registers.R0;
-            case 1: return registers.R1;
-            case 2: return registers.R2;
-            case 3: return registers.R3;
-            case 4: return registers.R4;
-            case 5: return registers.R5;
-            case 6: return registers.R6;
-            case 7: return registers.PC;
-            case 8: return registers.SP;
-            // case 8: return registers.FLAGS;
-            default:
-                throw std::out_of_range("Register index out of range"+std::to_string(index.toInt()));
-        }
+        return registers.values[registerIndex(index)];
     }
+
     Tryte Cpu::getRegister(Register reg) const {
-        int index = static_cast<int>(reg);
-        if (index < 0 || index >= 8) {
-            throw std::out_of_range("Register index out of range: "+std::to_string(index));
-        }
-        return registers.GPR[index];
+        return registers.values[registerIndex(reg)];
     }
 
     void Cpu::run(Tryte startAddress) {
-        registers.PC = startAddress;
+        registers.values[static_cast<int>(Register::PC)] = startAddress;
         while (true) {
-            // Tryte pc = registers.PC;
-            EncodedInstruction encodedInstruction = memory.readInstruction(registers.PC);
+            EncodedInstruction encodedInstruction = memory.readInstruction(registers.values[static_cast<int>(Register::PC)]);
             Instruction instruction = decodeInstruction(encodedInstruction);
             executeInstruction(instruction);
             if (instruction.opcode == Opcodes::HALT) break;
         }
     }
-
-
-
 }

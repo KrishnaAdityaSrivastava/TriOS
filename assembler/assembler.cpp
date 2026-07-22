@@ -7,9 +7,24 @@
 
 namespace trios
 {
+    namespace {
+        std::string stripComment(const std::string& line) {
+            return line.substr(0, line.find(';'));
+        }
+
+        std::string trim(const std::string& line) {
+            const auto first = line.find_first_not_of(" \t\r\n");
+            if (first == std::string::npos) {
+                return "";
+            }
+            const auto last = line.find_last_not_of(" \t\r\n");
+            return line.substr(first, last - first + 1);
+        }
+    }
+
     void Assembler::assembleLine(const std::string &line)
     {
-        std::stringstream ss(line);
+        std::stringstream ss(trim(stripComment(line)));
 
         std::string opcode;
         ss >> opcode;
@@ -201,7 +216,7 @@ namespace trios
         // Read the source once so we can perform two passes
         while (std::getline(file, line))
         {
-            lines.push_back(line);
+            lines.push_back(trim(stripComment(line)));
         }
 
         Tryte address = 0;
@@ -213,7 +228,7 @@ namespace trios
             std::string firstWord;
             ss >> firstWord;
 
-            if (firstWord.empty())
+            if (firstWord.empty() || firstWord == ".MEM" || firstWord == ".MEMO")
                 continue;
 
             if (firstWord.back() == ':')
@@ -246,7 +261,7 @@ namespace trios
             std::string firstWord;
             ss >> firstWord;
 
-            if (firstWord.empty() || firstWord == ";") continue;
+            if (firstWord.empty()) continue;
 
             // Skip label declaration
             if (firstWord.back() == ':')
@@ -254,9 +269,9 @@ namespace trios
                 // Check whether there is an instruction after the label
                 if (!(ss >> firstWord)) continue;
             }
-            else if (firstWord == ".MEMO"){
-                //initialize memory
-                
+            else if (firstWord == ".MEM" || firstWord == ".MEMO"){
+                // Memory directives are reserved for future source-level data initialization.
+                continue;
             }
 
             std::string rawInstruction = firstWord;
