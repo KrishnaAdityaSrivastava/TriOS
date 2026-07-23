@@ -18,7 +18,7 @@ int main()
     
     while (true)
     {
-        std::cout << "Enter a command (assemble, run, exit): ";
+        std::cout << "Enter a command (assem, fassem, run, mem, fetmem, regdump, reset, exit): ";
         std::string command;
         std::cin >> command;
 

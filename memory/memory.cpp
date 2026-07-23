@@ -1,31 +1,37 @@
 #include "memory.hpp"
+#include <cstddef>
 #include <stdexcept>
-#include <iostream>
 
 namespace trios {
-    Tryte Memory::read(const Tryte& address) const {
-        int addr = address.toInt();
-        if (addr < 0 || addr >= memory.size()) {
-            throw std::out_of_range("Address out of range");
+    namespace {
+        std::size_t checkedAddress(const Tryte& address, std::size_t memorySize) {
+            int addr = address.toInt();
+            if (addr < 0 || static_cast<std::size_t>(addr) >= memorySize) {
+                throw std::out_of_range("Address out of range");
+            }
+            return static_cast<std::size_t>(addr);
         }
-        return memory[addr];
+
+        std::size_t checkedInstructionAddress(const Tryte& address, std::size_t memorySize) {
+            std::size_t addr = checkedAddress(address, memorySize);
+            if (addr + 3 >= memorySize) {
+                throw std::out_of_range("Address out of range for instruction access");
+            }
+            return addr;
+        }
+    }
+
+    Tryte Memory::read(const Tryte& address) const {
+        return memory[checkedAddress(address, memory.size())];
     }
 
     Tryte Memory::write(const Tryte& address, const Tryte& value) {
-        int addr = address.toInt();
-        //std::cout << "Writing value " << value.toInt() << " to address " << addr << std::endl;
-        if (addr < 0 || addr >= memory.size()) {
-            throw std::out_of_range("Address out of range" + std::to_string(memory.size()));
-        }
-        memory[addr] = value;
+        memory[checkedAddress(address, memory.size())] = value;
         return value;
     }
 
     EncodedInstruction Memory::readInstruction(const Tryte& address) const {
-        int addr = address.toInt();
-        if (addr < 0 || addr + 3 >= memory.size()) {
-            throw std::out_of_range("Address out of range for instruction read");
-        }
+        std::size_t addr = checkedInstructionAddress(address, memory.size());
         EncodedInstruction instruction;
         instruction.opcode = memory[addr];
         instruction.arg1 = memory[addr + 1];
@@ -35,10 +41,7 @@ namespace trios {
     }
 
     void Memory::saveInstruction(const Tryte& address, const EncodedInstruction& instruction) {
-        int addr = address.toInt();
-        if (addr < 0 || addr + 3 >= memory.size()) {
-            throw std::out_of_range("Address out of range for instruction save");
-        }
+        std::size_t addr = checkedInstructionAddress(address, memory.size());
         memory[addr] = instruction.opcode;
         memory[addr + 1] = instruction.arg1;
         memory[addr + 2] = instruction.arg2;
@@ -46,7 +49,7 @@ namespace trios {
     }
 
     void Memory::reset(){
-        memory.clear();
+        memory.assign(DEFAULT_MEMORY_SIZE, Tryte(0));
     }
 
 }
